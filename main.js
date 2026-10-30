@@ -24,31 +24,6 @@ import {
 } from "./js/domelments.js";
 import { validationName, validateNumber } from "./js/validation.js";
 
-newPlayerForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  validationName(nameOfThePlayer.value);
-  validateNumber(Number(numberOfThePlayer.value));
-
-  console.log(players);
-  let hasError = false;
-  errors.forEach((error) => {
-    if (error.textContent.trim() !== "") {
-      hasError = true;
-    }
-  });
-  if (!hasError) {
-    formValidMsg.classList.remove("hidden");
-    formNoValidMesg.textContent = "";
-  } else {
-    formValidMsg.classList.add("hidden");
-    formNoValidMesg.textContent = "Faild";
-    return;
-  }
-  CreatePlayer();
-
-  newPlayerForm.classList.add("hidden");
-  formValidMsg.classList.add("hidden");
-});
 removePopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.add("hidden");
   formValidMsg.classList.add("hidden");
@@ -122,4 +97,3 @@ players.forEach((player) => {
   }
 });
 renderingCard();
-console.log(playersListEffective);
