@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tachkila-v2</title>
-    <link rel="stylesheet" href="/dist/output.css" />
+    <link rel="stylesheet" href="../dist/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script type="module" src="../main.js" defer></script>
+    <script type="module" src = "../js/joueurs.js" defer></script>
   </head>
-  <body class="bg-yellow-500">
+  <body class="bg-[#1a1f33]">
     <header
-      class="relative col-[1/7] row-[1/1] bg-[#1a1f33] text-[#e5e7eb] flex flex-row justify-between items-center px-4 py-3 border-b border-[#1a2233]"
+      class="relative col-[1/7] row-[1/1] bg-[#1a1f33] text-[#e5e7eb] flex flex-row justify-between items-center px-4 py-4 border-b border-[#1a2233]"
     >
       <div class="logo flex flex-row items-center gap-3">
         <img
@@ -41,5 +49,116 @@
         </ul>
       </div>
     </header>
+    <section class="h-screen py-4">
+      <div class="flex justify-between px-1 items-center">
+        <div class="text-white">
+          <h1 class="">Effectif</h1>
+          <p>Gere les joueurs du club CodaNova</p>
+        </div>
+        <button
+          class="bg-[#22c55e] px-5 py-5 self-center my-3 rounded-xl text-xl md:px-3 text-white"
+          id="PopUpFormBtn"
+        >
+          + Ajouter un joueur
+        </button>
+      </div>
+
+      <div class="search-bar bg-[#1a2438] py-5 px-3 grid grid-cols-4 gap-3">
+        <input
+          class="bg-[#0b1426] text-[#64748b] py-3 px-3 px-1 col-start-1 col-end-4 rounded-xl"
+          type="text"
+          name="searchInput"
+          id="search-input"
+          placeholder="Rechercher un joueur par nom ..."
+        />
+        <div
+          class="filter-btns text-white bg-[#0b1426] flex justify-evenly rounded-xl"
+        >
+          <button class="">Tous</button>
+          <button class="">GB</button>
+          <button class="">DEF</button>
+          <button class="">MIL</button>
+          <button class="">ATT</button>
+        </div>
+      </div>
+      <div class="players-list flex justify-start gap-4 p-5"></div>
+    </section>
+    <form
+      class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full max-w-[560px] p-5 rounded-xl flex flex-col gap-4 grid-rows-6"
+      action=""
+      id="newPlayerForm"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-2xl">Ajouter un joueur</h3>
+        <span class="text-2xl"
+          ><i id="removePopUpForm" class="fa-solid fa-xmark"></i
+        ></span>
+      </div>
+       <div class="grid grid-cols-2 grid-rows-3 gap-3">
+        <div class="flex gap-1 flex-col col-span-2"><label for="name-of-player">Nom complet</label>
+        <input
+          id="name-of-player"
+          class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
+          type="text"
+        /><p class="errors p-2 text-red-500" id="errorName"></p>
+      </div>
+        <div class="flex flex-col gap-1">
+         <label for="name-of-player">Numero</label>
+        <input
+          id="number-of-player"
+          class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
+          type="number"
+        /><p class="errors p-2 text-red-500 focus:outline-green-500" id="errorNumber"></p></div>
+        <div class="flex flex-col gap-1">
+        <label for="post">Poste</label>
+        <select class="flex items-center p-3 rounded-xl bg-[#0f1625]" id="post">
+          <option value="">Choisir un poste</option>
+        <option value="GB">GB</option>
+        <option value="DEF">DEF</option>
+        <option value="MIL">MIL</option>
+        <option value="ATT">ATT</option>
+      </select>
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="statut">statut</label>
+      <select class="flex items-center p-3 rounded-xl bg-[#0f1625] focus:outline-green-500" id="statut">
+        <option value="Enforme">En forme</option>
+        <option value="blesse">Blesse</option>
+      </select>
+    </div>
+        
+       <div class="cols-end-2 row-end-3">
+
+        <label for="age">Age</label>
+        <input class="flex items-center p-3 rounded-xl bg-[#0f1625]" id="age" type="number" >
+      </div>
+      </div>
+    </div>
+      <div class="flex gap-3 justify-end">
+        <button
+          id="annuleBtn"
+          class="bg-[#0f1625] p-3 rounded-2xl"
+          type="button"
+        >
+          Annuler
+        </button>
+        <button
+          id="submitBtn"
+          class="bg-[#22c55e] p-3 rounded-2xl hover:not-focus:bg-green-700"
+        >
+          Ajouter
+        </button>
+      </div>
+      <p
+        class="errors p-2 text-red-500 text-center text-xl"
+        id="formNoValidMesg"
+      ></p>
+      <p
+        class="p-2 bg-green-200/50 text-green-500 text-center text-xl hidden"
+        id="formValidMsg"
+      >
+        Succsse
+      </p>
+    </form>
   </body>
 </html>

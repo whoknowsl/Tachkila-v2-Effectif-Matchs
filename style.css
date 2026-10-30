@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source inline("{border,text}-{yellow,blue,green,red}-500");
 body {
   height: 100vh;
   @media (max-width: 768px) {
