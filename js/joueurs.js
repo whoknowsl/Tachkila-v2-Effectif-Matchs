@@ -103,7 +103,7 @@ export function displayCard(player) {
   secDiv.classList.add("flex", "gap-2");
   thireddiv.classList.add("flex", "items-center", "gap-3");
   age.classList.add("text-gray-500");
-  li.classList.add("bg-[#1a2438]");
+  li.classList.add("bg-");
   modifierBtn.classList.add("cursor-pointer");
   deletBtn.classList.add("cursor-pointer");
   status.classList.add("bg-green-500");
