@@ -46,6 +46,27 @@ export function CreatePlayer() {
   refreshLocalStorage();
   renderingCard();
 }
+//delete card
+export function deletPlayer(p) {
+  p = Number(p);
+  const playerIndx = players.findIndex((player) => {
+    return player.id == p;
+  });
+  if (playerIndx == -1) return;
+  if (players[playerIndx].isPlaying) {
+    clearSlot(players[playerIndx].cuurentPosition);
+  }
+  players.splice(playerIndx, 1);
+  refreshLocalStorage();
+  // updateFieldCount();
+  renderingCard();
+  // totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
+  playersList.textContent = "";
+  players.forEach((player) => {
+    playerCard(player);
+  });
+}
+//readCard
 export function renderingCard() {
   playersListEffective.replaceChildren();
   if (players.length === 0) return;
@@ -59,7 +80,6 @@ export const positionColors = {
   MIL: { color: "#22c55e" },
   ATT: { color: "#ef4444" },
 };
-console.log(positionColors.GB.circle);
 export function displayCard(player) {
   const li = document.createElement("li");
   const secDiv = document.createElement("div");
@@ -73,11 +93,15 @@ export function displayCard(player) {
   const isCaptine = document.createElement("p");
   const modifierBtn = document.createElement("button");
   const deletBtn = document.createElement("button");
-  const captineBtn = document.createElement("button");
+  //
+
   //
   const style = positionColors[player.position];
-  console.log(style);
+  if (!style) return;
+  console.log(player.position);
+  console.log(style.color);
   li.classList.add(
+    "border-2",
     "list-none",
     "text-white",
     "p-4",
@@ -106,9 +130,9 @@ export function displayCard(player) {
   li.classList.add("bg-");
   modifierBtn.classList.add("cursor-pointer");
   deletBtn.classList.add("cursor-pointer");
-  status.classList.add("bg-green-500");
+  isCaptine.classList.add("cursor-pointer");
   //
-  captineBtn.innerHTML = "<i class='fa-regular fa-copyright'></i>";
+
   span.textContent = player.number;
   h1.textContent = player.name;
   position.textContent = player.position;
@@ -116,15 +140,48 @@ export function displayCard(player) {
   status.textContent = player.statut;
   modifierBtn.innerHTML = "<i class='fa-solid fa-pen'></i>";
   deletBtn.innerHTML = "<i class='fa-solid fa-trash'></i>";
+  isCaptine.innerHTML = "<i class='fa-regular fa-copyright'></i>";
   //
   //set attribute
   modifierBtn.setAttribute("data-id", player.id);
   deletBtn.setAttribute("data-id", player.id);
   //
+  isCaptine.dataset.id = player.id;
+  deletBtn.dataset.id = player.id;
+  //
+  isCaptine.addEventListener("click", () => {
+    let captinePlayer = players.find((player) => {
+      return player.id == isCaptine.dataset.id;
+    });
+    if (captinePlayer.capitaine) {
+      captinePlayer.capitaine = false;
+    } else {
+      players.forEach((player) => {
+        player.capitaine = false;
+      });
+      captinePlayer.capitaine = true;
+    }
+    console.log(captinePlayer);
+    renderingCard();
+  });
+  status.textContent == "Blesse"
+    ? status.classList.add("bg-red-500")
+    : status.classList.add("bg-green-500");
+  deletBtn.addEventListener("click", () => {
+    deletPlayer(deletBtn.dataset.id);
+  });
+  //
+  if (player.capitaine) {
+    li.classList.add("border-purple-500");
+    isCaptine.classList.add("bg-purple-500");
+  } else {
+    li.classList.remove("border-purple-500");
+    isCaptine.classList.remove("bg-purple-500");
+  }
+
   secDiv.append(span, div);
   thireddiv.append(status, isCaptine, modifierBtn, deletBtn);
   div.append(h1, position);
   li.append(secDiv, age, thireddiv);
   playersListEffective.append(li);
 }
-console.log(players);

@@ -67,14 +67,14 @@ newPlayerForm.addEventListener("submit", (e) => {
     return;
   }
 
-  //   if (state.editingId !== null) {
-  //     updateExistingPlayer();
-  //   } else {
-  //     addNewPlayer();
-  //   }
+    if (state.editingId !== null) {
+      updateExistingPlayer();
+    } else {
+      addNewPlayer();
+    }
 
-  //   playersList.textContent = "";
-  //   players.forEach((p) => playerCard(p));
+    playersList.textContent = "";
+    players.forEach((p) => playerCard(p));
 
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");
@@ -91,9 +91,4 @@ annuleFormBtn.addEventListener("click", (e) => {
   newPlayerForm.classList.add("hidden");
 });
 refresh();
-players.forEach((player) => {
-  if (player.isPlaying && player.cuurentPosition !== "Surlebanc") {
-    fillSlot(player);
-  }
-});
 renderingCard();

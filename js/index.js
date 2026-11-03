@@ -1,6 +1,6 @@
 import { playersList, positionFealde } from "./domelments.js";
-import { CreatePlayer, positionColors } from "./joueurs.js";
-import { players, positions } from "./data.js";
+import { CreatePlayer, positionColors, renderingCard } from "./joueurs.js";
+import { players, positions, refreshLocalStorage } from "./data.js";
 
 //creating card
 function displayPlayerEffectef(player) {
@@ -40,6 +40,33 @@ function displayPlayerEffectef(player) {
   p.style.color = style.color;
   h3.classList.add("flex");
   select.classList.add("bg-[#1a2438]");
+
+  select.addEventListener("change", (e) => {
+    const selecedPosition = removeSpaces(e.target.value);
+    console.log(selecedPosition);
+    const oldposition = player.selecedPosition;
+    console.log(oldposition);
+    player.selecedPosition = selecedPosition;
+    if (selecedPosition === "Surlebanc") {
+      if (oldposition && oldposition !== "Surlebanc") {
+        clearSlot(oldposition, style);
+      }
+    } else {
+      if (
+        oldposition &&
+        oldposition !== "Surlebanc" &&
+        oldposition !== selecedPosition
+      ) {
+        clearSlot(oldposition, style);
+      }
+      fillSolt(selecedPosition, player, style);
+    }
+
+    refreshLocalStorage();
+    renderPlayers(players);
+  });
+  //
+
   //
   if (player.position == "ATT") {
     for (let i = 0; i < positions.length; i++) {
@@ -90,6 +117,16 @@ function displayPlayerEffectef(player) {
       }
     }
   }
+  for (let i = 0; i < select.options.length; i++) {
+    const option = select.options[i];
+    const optionId = removeSpaces(option.value);
+    if (optionId == player.selecedPosition) {
+      option.selected = true;
+    }
+    if (optionId != "Surlebanc" && optionId == player.selecedPosition) {
+      option.disabled = true;
+    }
+  }
   //
   span.textContent = player.number;
   h3.textContent = player.name;
@@ -108,18 +145,24 @@ function renderPlayers(players) {
   });
 }
 renderPlayers(players);
+players.forEach((player) => {
+  if (player.selecedPosition && player.selecedPosition !== "Surlebanc") {
+    const style = positionColors[player.position];
 
+    // Automatically populate their tactical slot on the pitch board
+    fillSolt(player.selecedPosition, player, style);
+  }
+});
 function fillSolt(slotId, player, style) {
   const slot = document.getElementById(slotId);
   if (!slot) return;
-  player.positionInTheFielde = slotId;
   slot.dataset.active = "true";
 
   const subDiv = document.createElement("div");
   [player.number, player.position, player.name].forEach((value, i) => {
     const p = document.createElement("p");
     p.className = i === 0 ? "text-sm font-bold" : "font-bold";
-    p.style.color = style.color; // inline: Tailwind can't generate text-[${...}]
+    p.style.color = style.color;
     p.textContent = value;
     subDiv.append(p);
   });
@@ -128,4 +171,27 @@ function fillSolt(slotId, player, style) {
   div.className = "flex items-center p-3 gap-3";
   div.append(subDiv);
   slot.replaceChildren(div);
+}
+export function clearSlot(position, style) {
+  const slot = document.getElementById(position);
+  if (slot == null) return;
+  slot.dataset.active = "false";
+  slot.innerHTML = `    <div
+          class="flex justify-center items-center"
+          id=""
+        >
+          <span class="bg-[${style ? style.color : "#475569"}] p-2 w-10 h-10 rounded-full flex"></span>
+        </div>`;
+  slot.dataset.active = "false";
+}
+export function removeSpaces(text) {
+  let res = "";
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] == " ") {
+      continue;
+    } else {
+      res += text[i];
+    }
+  }
+  return res;
 }
