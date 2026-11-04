@@ -1,6 +1,4 @@
 import { errorName, errorNumber, errorAge, errorPost} from "./domelments.js";
-// import { state } from "./joueurs.js";
-import { players } from "./data.js";
 
 export function validationName(nom) {
   if (nom === "") {

@@ -29,3 +29,8 @@ export const numberOfThePlayer = document.getElementById("number-of-player");
 export const postOfThePlayer = document.getElementById("post");
 export const statusOfThePlayer = document.getElementById("statut");
 export const submitBtn = document.getElementById("submitBtn");
+//pagination variable
+export const btnPrec = document.getElementById("prec");
+export const btnSuiv = document.getElementById("suiv");
+export const infoPage = document.getElementById("info-page");
+export const searchBar = document.getElementById("search-input");

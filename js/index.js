@@ -3,7 +3,7 @@ import {
   numberOfPlayerInTheField,
   totalNumberOfPlayers,
 } from "./domelments.js";
-import { positionColors } from "./joueurs.js";
+import {positionColors} from "./joueurs.js";
 import { players, positions, refreshLocalStorage } from "./data.js";
 
 //creating card
@@ -69,8 +69,6 @@ function displayPlayerEffectef(player) {
     renderPlayers(players);
     updateFieldCount();
   });
-
-  //
   //
   if (player.position == "ATT") {
     for (let i = 0; i < positions.length; i++) {

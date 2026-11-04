@@ -5,6 +5,8 @@ import {
   state,
   updatePlayer,
   displayCard,
+  etat,
+  display,
 } from "./js/joueurs.js";
 import {
   newPlayerForm,
@@ -19,7 +21,9 @@ import {
   ageOfThePlayer,
   postOfThePlayer,
   playersListEffective,
-  playersList,
+  btnPrec,
+  btnSuiv,
+  searchBar,
 } from "./js/domelments.js";
 import {
   validationName,
@@ -60,8 +64,6 @@ newPlayerForm.addEventListener("submit", (e) => {
   validateNumber(numberOfThePlayer.value);
   validationAge(ageOfThePlayer.value);
   checkPost(postOfThePlayer.options[postOfThePlayer.selectedIndex].text);
-
-  console.log(players);
   let hasError = false;
   errors.forEach((error) => {
     if (error.textContent.trim() !== "") {
@@ -96,6 +98,30 @@ annuleFormBtn.addEventListener("click", (e) => {
     error.textContent = "";
   });
   newPlayerForm.classList.add("hidden");
+});
+//pagination logic
+btnPrec.addEventListener("click", () => {
+  etat.page--;
+  display();
+});
+btnSuiv.addEventListener("click", () => {
+  etat.page++;
+  display();
+});
+searchBar.addEventListener("input", (e) => {
+  etat.rechercher = e.target.value;
+  etat.page = 1;
+  display();
+});
+filterBtns.forEach((btn) => {
+  
+  btn.addEventListener("click", () => {
+    console.log(btn)
+    etat.positions = btn.dataset.position;
+    console.log(etat.positions)
+    etat.page = 1;
+    display();
+  });
 });
 refresh();
 renderingCard();

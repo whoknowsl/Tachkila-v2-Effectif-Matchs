@@ -1,10 +1,4 @@
-import {
-  positions,
-  players,
-  playersKey,
-  refresh,
-  refreshLocalStorage,
-} from "./data.js";
+import { players, refreshLocalStorage } from "./data.js";
 import {
   playersListEffective,
   nameOfThePlayer,
@@ -14,6 +8,10 @@ import {
   statusOfThePlayer,
   newPlayerForm,
   formValidMsg,
+  infoPage,
+  btnSuiv,
+  btnPrec,
+  searchBar,
 } from "./domelments.js";
 export const state = { editingId: null };
 //create a player
@@ -43,10 +41,6 @@ export function deletPlayer(p) {
   }
   players.splice(playerIndx, 1);
   refreshLocalStorage();
-  players.forEach((player) => {
-    playerCard(player);
-  });
-  refreshLocalStorage();
   renderingCard();
 }
 //update player
@@ -73,6 +67,7 @@ export function renderingCard() {
   players.forEach((player) => {
     displayCard(player);
   });
+  display()
 }
 export const positionColors = {
   GB: { color: "#f59e0b" },
@@ -201,4 +196,31 @@ export function modifierTheplayer(player) {
   statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text =
     player.statut;
   newPlayerForm.classList.remove("hidden");
+}
+//pagination logic
+const parPage = 8;
+export const etat = { rechercher: "", positions: "Tous", page: 1 };
+
+export function playerFilter() {
+  return players.filter(
+    (p) =>
+      (p.name.toLowerCase().includes(etat.rechercher.toLocaleLowerCase()) &&
+        etat.positions == "Tous") ||
+      p.position == etat.positions,
+  );
+}
+export function display() {
+  const filterdPlayers = playerFilter();
+  const totalPages = Math.ceil(filterdPlayers.length / parPage);
+  //
+  const start = (etat.page - 1) * parPage;
+  const currentDisplayPlayer = filterdPlayers.slice(start, start + parPage);
+  playersListEffective.replaceChildren();
+  currentDisplayPlayer.forEach(displayCard);
+  if (currentDisplayPlayer.length === 0) {
+    playersListEffective.textContent = "Aucun produit ne correspond.";
+  }
+  infoPage.textContent = `Page ${etat.page}/${totalPages}`;
+  btnPrec.disabled = etat.page <= 1;
+  btnSuiv.disabled = etat.page >= totalPages;
 }
