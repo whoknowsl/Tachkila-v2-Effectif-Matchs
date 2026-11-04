@@ -14,11 +14,9 @@ const positions = [
 ];
 const players = [];
 const playersKey = "players";
-
 function refreshLocalStorage() {
   localStorage.setItem(playersKey, JSON.stringify(players));
 }
-
 function refresh() {
   const savedplayers = localStorage.getItem(playersKey);
   if (savedplayers) {

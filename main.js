@@ -1,5 +1,11 @@
-import {players,refresh } from "./js/data.js";
-import { createPlayer, renderingCard } from "./js/joueurs.js";
+import { players, refresh } from "./js/data.js";
+import {
+  createPlayer,
+  renderingCard,
+  state,
+  updatePlayer,
+  displayCard,
+} from "./js/joueurs.js";
 import {
   newPlayerForm,
   PopUpFormBtn,
@@ -12,6 +18,8 @@ import {
   numberOfThePlayer,
   ageOfThePlayer,
   postOfThePlayer,
+  playersListEffective,
+  playersList,
 } from "./js/domelments.js";
 import {
   validationName,
@@ -27,6 +35,7 @@ removePopUpFormBtn.addEventListener("click", () => {
   errors.forEach((error) => {
     error.textContent = "";
   });
+  state.editingId = null;
 });
 PopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.remove("hidden");
@@ -34,6 +43,7 @@ PopUpFormBtn.addEventListener("click", () => {
   errors.forEach((error) => {
     error.textContent = "";
   });
+  state.editingId = null;
 });
 annuleFormBtn.addEventListener("click", (e) => {
   newPlayerForm.reset();
@@ -66,15 +76,14 @@ newPlayerForm.addEventListener("submit", (e) => {
     formNoValidMesg.textContent = "Faild";
     return;
   }
-  createPlayer();
-  // if (state.editingId !== null) {
-  //   updateExistingPlayer();
-  // } else {
-  //   addNewPlayer();
-  // }
+  if (state.editingId !== null) {
+    updatePlayer();
+  } else {
+    createPlayer();
+  }
 
-  // playersList.textContent = "";
-  // players.forEach((p) => playerCard(p));
+  playersListEffective.textContent = "";
+  players.forEach((p) => displayCard(p));
   renderingCard();
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");

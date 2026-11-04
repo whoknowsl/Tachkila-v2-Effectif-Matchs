@@ -6,15 +6,16 @@ import {
   refreshLocalStorage,
 } from "./data.js";
 import {
-  playersList,
   playersListEffective,
   nameOfThePlayer,
   ageOfThePlayer,
   numberOfThePlayer,
   postOfThePlayer,
   statusOfThePlayer,
+  newPlayerForm,
+  formValidMsg,
 } from "./domelments.js";
-
+export const state = { editingId: null };
 //create a player
 export function createPlayer() {
   const newPlayer = {
@@ -45,9 +46,26 @@ export function deletPlayer(p) {
   players.forEach((player) => {
     playerCard(player);
   });
+  refreshLocalStorage();
+  renderingCard();
 }
 //update player
-
+export function updatePlayer() {
+  const target = state.editingId;
+  const updatingIndex = players.findIndex((p) => p.id === state.editingId);
+  players[updatingIndex].name = nameOfThePlayer.value;
+  players[updatingIndex].number = Number(numberOfThePlayer.value);
+  players[updatingIndex].age = ageOfThePlayer.value;
+  players[updatingIndex].position =
+    postOfThePlayer.options[postOfThePlayer.selectedIndex].text;
+  players[updatingIndex].status =
+    statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text;
+  refreshLocalStorage();
+  state.editingId = null;
+  newPlayerForm.reset();
+  newPlayerForm.classList.add("hidden");
+  formValidMsg.classList.add("hidden");
+}
 //readCard
 export function renderingCard() {
   playersListEffective.replaceChildren();
@@ -149,6 +167,13 @@ export function displayCard(player) {
   //delet player
   deletBtn.addEventListener("click", () => {
     deletPlayer(deletBtn.dataset.id);
+    refreshLocalStorage();
+  });
+  modifierBtn.addEventListener("click", () => {
+    const player = players.find((p) => {
+      return p.id == modifierBtn.dataset.id;
+    });
+    modifierTheplayer(player);
   });
   //change the color based on captaine
   if (player.capitaine) {
@@ -166,4 +191,14 @@ export function displayCard(player) {
   div.append(h1, position);
   li.append(secDiv, age, thireddiv);
   playersListEffective.append(li);
+}
+export function modifierTheplayer(player) {
+  state.editingId = player.id;
+  nameOfThePlayer.value = player.name;
+  numberOfThePlayer.value = player.number;
+  postOfThePlayer.options[postOfThePlayer.selectedIndex].text = player.position;
+  ageOfThePlayer.value = player.age;
+  statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text =
+    player.statut;
+  newPlayerForm.classList.remove("hidden");
 }
