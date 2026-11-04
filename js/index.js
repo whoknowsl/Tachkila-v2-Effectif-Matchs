@@ -1,5 +1,9 @@
-import { playersList, positionFealde } from "./domelments.js";
-import { CreatePlayer, positionColors, renderingCard } from "./joueurs.js";
+import {
+  playersList,
+  numberOfPlayerInTheField,
+  totalNumberOfPlayers,
+} from "./domelments.js";
+import { positionColors } from "./joueurs.js";
 import { players, positions, refreshLocalStorage } from "./data.js";
 
 //creating card
@@ -61,12 +65,12 @@ function displayPlayerEffectef(player) {
       }
       fillSolt(selecedPosition, player, style);
     }
-
     refreshLocalStorage();
     renderPlayers(players);
+    updateFieldCount();
   });
-  //
 
+  //
   //
   if (player.position == "ATT") {
     for (let i = 0; i < positions.length; i++) {
@@ -136,24 +140,15 @@ function displayPlayerEffectef(player) {
   li.append(div, select);
   playersList.append(li);
 }
-
 //displaying card
 function renderPlayers(players) {
   playersList.textContent = "";
+  totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
   players.forEach((player) => {
     displayPlayerEffectef(player);
   });
 }
-renderPlayers(players);
-players.forEach((player) => {
-  if (player.selecedPosition && player.selecedPosition !== "Surlebanc") {
-    const style = positionColors[player.position];
-
-    // Automatically populate their tactical slot on the pitch board
-    fillSolt(player.selecedPosition, player, style);
-  }
-});
-function fillSolt(slotId, player, style) {
+export function fillSolt(slotId, player, style) {
   const slot = document.getElementById(slotId);
   if (!slot) return;
   slot.dataset.active = "true";
@@ -180,7 +175,7 @@ export function clearSlot(position, style) {
           class="flex justify-center items-center"
           id=""
         >
-          <span class="bg-[${style ? style.color : "#475569"}] p-2 w-10 h-10 rounded-full flex"></span>
+          <span class="bg-[${style.color}] p-2 w-10 h-10 rounded-full flex"></span>
         </div>`;
   slot.dataset.active = "false";
 }
@@ -195,3 +190,23 @@ export function removeSpaces(text) {
   }
   return res;
 }
+players.forEach((player) => {
+  if (player.selecedPosition && player.selecedPosition !== "Surlebanc") {
+    const style = positionColors[player.position];
+    fillSolt(player.selecedPosition, player, style);
+  }
+});
+renderPlayers(players);
+export function updateFieldCount() {
+  let count = 0;
+  players.forEach((player) => {
+    if (
+      player.selecedPosition !== "Surlebanc" ||
+      player.selecedPosition == ""
+    ) {
+      count++;
+    }
+  });
+  numberOfPlayerInTheField.textContent = `the total number of the player is ${count}`;
+}
+updateFieldCount();

@@ -6,33 +6,17 @@ import {
   refreshLocalStorage,
 } from "./data.js";
 import {
-  newPlayerForm,
-  PopUpFormBtn,
-  removePopUpFormBtn,
-  annuleFormBtn,
   playersList,
-  errorName,
-  nameOfPlayerInput,
-  numberOfPlayerInput,
-  errorNumber,
-  formNoValidMesg,
-  formValidMsg,
-  errors,
-  totalNumberOfPlayers,
-  positionFealde,
-  numberOfPlayerInTheField,
   playersListEffective,
   nameOfThePlayer,
   ageOfThePlayer,
   numberOfThePlayer,
   postOfThePlayer,
   statusOfThePlayer,
-  submitBtn,
 } from "./domelments.js";
-import { validationName, validateNumber } from "./validation.js";
 
 //create a player
-export function CreatePlayer() {
+export function createPlayer() {
   const newPlayer = {
     id: Date.now().toString(),
     name: nameOfThePlayer.value,
@@ -42,7 +26,7 @@ export function CreatePlayer() {
     statut: statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text,
     capitaine: false,
   };
-  players.unshift(newPlayer);
+  players.push(newPlayer);
   refreshLocalStorage();
   renderingCard();
 }
@@ -58,14 +42,12 @@ export function deletPlayer(p) {
   }
   players.splice(playerIndx, 1);
   refreshLocalStorage();
-  // updateFieldCount();
-  renderingCard();
-  // totalNumberOfPlayers.textContent = `${players.length} joueur(s)`;
-  playersList.textContent = "";
   players.forEach((player) => {
     playerCard(player);
   });
 }
+//update player
+
 //readCard
 export function renderingCard() {
   playersListEffective.replaceChildren();
@@ -93,8 +75,6 @@ export function displayCard(player) {
   const isCaptine = document.createElement("p");
   const modifierBtn = document.createElement("button");
   const deletBtn = document.createElement("button");
-  //
-
   //
   const style = positionColors[player.position];
   if (!style) return;
@@ -132,7 +112,6 @@ export function displayCard(player) {
   deletBtn.classList.add("cursor-pointer");
   isCaptine.classList.add("cursor-pointer");
   //
-
   span.textContent = player.number;
   h1.textContent = player.name;
   position.textContent = player.position;
@@ -148,7 +127,7 @@ export function displayCard(player) {
   //
   isCaptine.dataset.id = player.id;
   deletBtn.dataset.id = player.id;
-  //
+  //set capitaine
   isCaptine.addEventListener("click", () => {
     let captinePlayer = players.find((player) => {
       return player.id == isCaptine.dataset.id;
@@ -161,16 +140,17 @@ export function displayCard(player) {
       });
       captinePlayer.capitaine = true;
     }
-    console.log(captinePlayer);
     renderingCard();
   });
+  //change color of blessed
   status.textContent == "Blesse"
     ? status.classList.add("bg-red-500")
     : status.classList.add("bg-green-500");
+  //delet player
   deletBtn.addEventListener("click", () => {
     deletPlayer(deletBtn.dataset.id);
   });
-  //
+  //change the color based on captaine
   if (player.capitaine) {
     li.classList.add("border-purple-500");
     isCaptine.classList.add("bg-purple-500");
@@ -178,7 +158,9 @@ export function displayCard(player) {
     li.classList.remove("border-purple-500");
     isCaptine.classList.remove("bg-purple-500");
   }
-
+  //saved the updated data
+  refreshLocalStorage();
+  //append the elements
   secDiv.append(span, div);
   thireddiv.append(status, isCaptine, modifierBtn, deletBtn);
   div.append(h1, position);

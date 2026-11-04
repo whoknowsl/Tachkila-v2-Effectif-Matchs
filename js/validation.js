@@ -1,12 +1,14 @@
-import { nameOfPlayerInput, numberOfPlayerInput } from "./domelments.js";
+import { errorName, errorNumber, errorAge, errorPost} from "./domelments.js";
 // import { state } from "./joueurs.js";
 import { players } from "./data.js";
 
 export function validationName(nom) {
   if (nom === "") {
     errorName.textContent = "Please add Name for the player";
-  } else if (nom.length < 3) { 
+  } else if (nom.length < 3) {
     errorName.textContent = "Enter at leaste three caracter";
+  } else if (nom.length > 30) {
+    errorName.textContent = "max caracter allowed is 30";
   } else {
     formValidMsg.classList.add("hidden");
     formNoValidMesg.textContent = "";
@@ -23,5 +25,27 @@ export function validateNumber(number) {
     formValidMsg.classList.add("hidden");
     formNoValidMesg.textContent = "";
     errorNumber.textContent = "";
+  }
+}
+export function validationAge(age) {
+  const min = 18;
+  const max = 39;
+  if (age < min) {
+    errorAge.textContent = "The minimun age is 18";
+  } else if (age > max) {
+    errorAge.textContent = "The maximum age is 39";
+  } else {
+    formValidMsg.classList.add("hidden");
+    formNoValidMesg.textContent = "";
+    errorAge.textContent = "";
+  }
+}
+export function checkPost(post) {
+  if (post == "Choisir un poste") {
+    errorPost.textContent = "please select position";
+  } else {
+    formValidMsg.classList.add("hidden");
+    formNoValidMesg.textContent = "";
+    errorPost.textContent = "";
   }
 }

@@ -1,28 +1,24 @@
-import { positions, players, refreshLocalStorage, refresh } from "./js/data.js";
-import { CreatePlayer, renderingCard } from "./js/joueurs.js";
+import {players,refresh } from "./js/data.js";
+import { createPlayer, renderingCard } from "./js/joueurs.js";
 import {
   newPlayerForm,
   PopUpFormBtn,
   removePopUpFormBtn,
   annuleFormBtn,
-  playersList,
-  errorName,
-  nameOfPlayerInput,
-  numberOfPlayerInput,
-  errorNumber,
   formNoValidMesg,
   formValidMsg,
   errors,
-  totalNumberOfPlayers,
-  positionFealde,
-  numberOfPlayerInTheField,
-  menuBurger,
-  menuList,
-  playersListEffective,
   nameOfThePlayer,
   numberOfThePlayer,
+  ageOfThePlayer,
+  postOfThePlayer,
 } from "./js/domelments.js";
-import { validationName, validateNumber } from "./js/validation.js";
+import {
+  validationName,
+  validateNumber,
+  validationAge,
+  checkPost,
+} from "./js/validation.js";
 
 removePopUpFormBtn.addEventListener("click", () => {
   newPlayerForm.classList.add("hidden");
@@ -49,8 +45,12 @@ annuleFormBtn.addEventListener("click", (e) => {
 // //submit-btn
 newPlayerForm.addEventListener("submit", (e) => {
   e.preventDefault();
+
   validationName(nameOfThePlayer.value);
-  CreatePlayer();
+  validateNumber(numberOfThePlayer.value);
+  validationAge(ageOfThePlayer.value);
+  checkPost(postOfThePlayer.options[postOfThePlayer.selectedIndex].text);
+
   console.log(players);
   let hasError = false;
   errors.forEach((error) => {
@@ -66,22 +66,20 @@ newPlayerForm.addEventListener("submit", (e) => {
     formNoValidMesg.textContent = "Faild";
     return;
   }
+  createPlayer();
+  // if (state.editingId !== null) {
+  //   updateExistingPlayer();
+  // } else {
+  //   addNewPlayer();
+  // }
 
-    if (state.editingId !== null) {
-      updateExistingPlayer();
-    } else {
-      addNewPlayer();
-    }
-
-    playersList.textContent = "";
-    players.forEach((p) => playerCard(p));
-
+  // playersList.textContent = "";
+  // players.forEach((p) => playerCard(p));
+  renderingCard();
   newPlayerForm.reset();
   newPlayerForm.classList.add("hidden");
   formValidMsg.classList.add("hidden");
-  renderingCard();
 });
-
 //annule form
 annuleFormBtn.addEventListener("click", (e) => {
   newPlayerForm.reset();

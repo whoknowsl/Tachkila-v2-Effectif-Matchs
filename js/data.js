@@ -12,7 +12,7 @@ const positions = [
   "BU - Buteur 1",
   "BU - Buteur 2",
 ];
-let players = [];
+const players = [];
 const playersKey = "players";
 
 function refreshLocalStorage() {
