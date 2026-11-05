@@ -7,6 +7,7 @@ import {
   displayCard,
   etat,
   display,
+  maxGardien,
 } from "./js/joueurs.js";
 import {
   newPlayerForm,
@@ -24,6 +25,11 @@ import {
   btnPrec,
   btnSuiv,
   searchBar,
+  tousBtn,
+  gbBtn,
+  defBtn,
+  milBtn,
+  attBtn,
 } from "./js/domelments.js";
 import {
   validationName,
@@ -64,6 +70,8 @@ newPlayerForm.addEventListener("submit", (e) => {
   validateNumber(numberOfThePlayer.value);
   validationAge(ageOfThePlayer.value);
   checkPost(postOfThePlayer.options[postOfThePlayer.selectedIndex].text);
+  maxGardien(players);
+
   let hasError = false;
   errors.forEach((error) => {
     if (error.textContent.trim() !== "") {
@@ -113,15 +121,30 @@ searchBar.addEventListener("input", (e) => {
   etat.page = 1;
   display();
 });
-filterBtns.forEach((btn) => {
-  
-  btn.addEventListener("click", () => {
-    console.log(btn)
-    etat.positions = btn.dataset.position;
-    console.log(etat.positions)
-    etat.page = 1;
-    display();
-  });
+tousBtn.addEventListener("click", () => {
+  etat.positions = tousBtn.dataset.position;
+  etat.page = 1;
+  display();
+});
+gbBtn.addEventListener("click", () => {
+  etat.positions = gbBtn.dataset.position;
+  etat.page = 1;
+  display();
+});
+defBtn.addEventListener("click", () => {
+  etat.positions = defBtn.dataset.position;
+  etat.page = 1;
+  display();
+});
+milBtn.addEventListener("click", () => {
+  etat.positions = milBtn.dataset.position;
+  etat.page = 1;
+  display();
+});
+attBtn.addEventListener("click", () => {
+  etat.positions = attBtn.dataset.position;
+  etat.page = 1;
+  display();
 });
 refresh();
 renderingCard();

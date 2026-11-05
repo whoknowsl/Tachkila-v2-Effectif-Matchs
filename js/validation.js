@@ -1,4 +1,4 @@
-import { errorName, errorNumber, errorAge, errorPost} from "./domelments.js";
+import { errorName, errorNumber, errorAge, errorPost } from "./domelments.js";
 
 export function validationName(nom) {
   if (nom === "") {

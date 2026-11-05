@@ -11,7 +11,6 @@ import {
   infoPage,
   btnSuiv,
   btnPrec,
-  searchBar,
 } from "./domelments.js";
 export const state = { editingId: null };
 //create a player
@@ -67,7 +66,7 @@ export function renderingCard() {
   players.forEach((player) => {
     displayCard(player);
   });
-  display()
+  display();
 }
 export const positionColors = {
   GB: { color: "#f59e0b" },
@@ -223,4 +222,11 @@ export function display() {
   infoPage.textContent = `Page ${etat.page}/${totalPages}`;
   btnPrec.disabled = etat.page <= 1;
   btnSuiv.disabled = etat.page >= totalPages;
+}
+export function maxGardien(players) {
+  let numberGb = players.filter((p) => p.position == "GB").length;
+  if ((numberGb = 3)) {
+    alert("the maximum GB in the team is 3");
+    return;
+  }
 }

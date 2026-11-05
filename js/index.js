@@ -3,7 +3,7 @@ import {
   numberOfPlayerInTheField,
   totalNumberOfPlayers,
 } from "./domelments.js";
-import {positionColors} from "./joueurs.js";
+import { positionColors } from "./joueurs.js";
 import { players, positions, refreshLocalStorage } from "./data.js";
 
 //creating card
@@ -65,9 +65,9 @@ function displayPlayerEffectef(player) {
       }
       fillSolt(selecedPosition, player, style);
     }
+    updateFieldCount();
     refreshLocalStorage();
     renderPlayers(players);
-    updateFieldCount();
   });
   //
   if (player.position == "ATT") {
@@ -169,6 +169,7 @@ export function clearSlot(position, style) {
   const slot = document.getElementById(position);
   if (slot == null) return;
   slot.dataset.active = "false";
+
   slot.innerHTML = `    <div
           class="flex justify-center items-center"
           id=""
@@ -196,15 +197,11 @@ players.forEach((player) => {
 });
 renderPlayers(players);
 export function updateFieldCount() {
-  let count = 0;
-  players.forEach((player) => {
-    if (
-      player.selecedPosition !== "Surlebanc" ||
-      player.selecedPosition == ""
-    ) {
-      count++;
-    }
-  });
+  const count = players.filter(
+    (player) =>
+      player.selecedPosition && player.selecedPosition !== "Surlebanc",
+  ).length;
+
   numberOfPlayerInTheField.textContent = `the total number of the player is ${count}`;
 }
 updateFieldCount();
