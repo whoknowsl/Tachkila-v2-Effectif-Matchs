@@ -39,3 +39,10 @@ export const gbBtn = document.getElementById("GB");
 export const defBtn = document.getElementById("DEF");
 export const milBtn = document.getElementById("MIL");
 export const attBtn = document.getElementById("ATT");
+//matcehs dom elements
+export const oppenantName = document.querySelector("#oppenant-name");
+export const dateOfMatche = document.querySelector("#date-of-matche");
+export const matchTime = document.querySelector("#match-time");
+export const locationOfMatche = document.querySelector("#location");
+export const newMatchForm = document.querySelector("#newMatchForm");
+export const matchesLists = document.querySelector(".matches-lists");

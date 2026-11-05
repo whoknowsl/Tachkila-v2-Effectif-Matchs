@@ -224,9 +224,11 @@ export function display() {
   btnSuiv.disabled = etat.page >= totalPages;
 }
 export function maxGardien(players) {
-  let numberGb = players.filter((p) => p.position == "GB").length;
-  if ((numberGb = 3)) {
+  const numberGb = players.filter((p) => p.position == "GB").length;
+  console.log(numberGb);
+  if (numberGb == 3) {
     alert("the maximum GB in the team is 3");
     return;
   }
 }
+console.log(players)

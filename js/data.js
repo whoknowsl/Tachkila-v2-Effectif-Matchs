@@ -13,6 +13,21 @@ const positions = [
   "BU - Buteur 2",
 ];
 const players = [];
+const matches = [];
+const months = [
+  "jan",
+  "feb",
+  "mar",
+  "apr",
+  "may",
+  "jun",
+  "jul",
+  "aug",
+  "sep",
+  "oct",
+  "nov",
+  "dec",
+];
 const playersKey = "players";
 function refreshLocalStorage() {
   localStorage.setItem(playersKey, JSON.stringify(players));
@@ -29,4 +44,12 @@ function refresh() {
 }
 refresh();
 
-export { positions, players, playersKey, refreshLocalStorage, refresh };
+export {
+  positions,
+  players,
+  playersKey,
+  matches,
+  months,
+  refreshLocalStorage,
+  refresh,
+};
