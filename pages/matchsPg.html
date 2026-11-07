@@ -76,7 +76,7 @@
           <button class="">Joues 2</button>
         </div>
       </div>
-      <div class="matches-lists"></div>
+      <div class="matches-lists flex flex-col px-5 py-4"></div>
     </section>
      <form
       class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full max-w-[560px] p-5 rounded-xl flex flex-col gap-4 grid-rows-6"
@@ -112,7 +112,7 @@
         <input
           id="match-time"
           class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
-          type="datetime"
+          type="time"
         />
         <p class="errors p-2 text-red-500 focus:outline-green-500" id="errorNumber"></p>
       </div>  
@@ -126,8 +126,8 @@
         <div class="flex flex-col gap-5 col-span-2">
           <p for="">Lieu du match</p>
           <div id="" class="grid grid-cols-2 gap-3">
-            <label  class = "bg-[#0f1625] p-3 rounded-xl has-checked:bg-green-500"  for="exterieur"><input id="exterieur" name="lieu" type="radio"> Exterieur</label>
-            <label class = "bg-[#0f1625] p-3 rounded-xl has-checked:bg-green-500" for="domicile"><input id="domicile" name="lieu" type="radio"> Domicile</label>
+            <label  class = "bg-[#0f1625] p-3 rounded-xl has-checked:bg-green-500"  for="exterieur"><input id="exterieur" name="lieu" type="radio" value="exterieur"> Exterieur</label>
+            <label class = "bg-[#0f1625] p-3 rounded-xl has-checked:bg-green-500" for="domicile"><input id="domicile" name="lieu" type="radio" value="domicile"> Domicile</label>
           </div>
         </div>
       </div>

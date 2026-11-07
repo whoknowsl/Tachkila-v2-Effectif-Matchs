@@ -13,7 +13,18 @@ const positions = [
   "BU - Buteur 2",
 ];
 const players = [];
-const matches = [];
+const matches = [
+  {
+    id: Date.now().toString(),
+    adversaire: "HUSA", 
+    date: "12-07-26",
+    heure: 1500, 
+    lieu: "Agadir",
+    domicile: true,
+    butsAtlas: 3, 
+    butsAdversaire: 1,
+  },
+];
 const months = [
   "jan",
   "feb",
