@@ -196,6 +196,16 @@ export function modifierTheplayer(player) {
     player.statut;
   newPlayerForm.classList.remove("hidden");
 }
+//
+export function positionOccupe(position, playerId) {
+  let taken = false;
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].cuurentPosition == position && players[i].id != playerId) {
+      taken = true;
+    }
+  }
+  return taken;
+}
 //pagination logic
 const parPage = 8;
 export const etat = { rechercher: "", positions: "Tous", page: 1 };
@@ -231,4 +241,4 @@ export function maxGardien(players) {
     return;
   }
 }
-console.log(players)
+console.log(players);

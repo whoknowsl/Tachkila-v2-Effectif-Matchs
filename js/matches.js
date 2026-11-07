@@ -1,4 +1,10 @@
-import { matches, months } from "./data.js";
+import {
+  matches,
+  months,
+  days,
+  referchMatch,
+  refreshMatchesStorage,
+} from "./data.js";
 import {
   oppenantName,
   dateOfMatche,
@@ -6,34 +12,51 @@ import {
   locationOfMatche,
   newMatchForm,
   matchesLists,
+  leftInput,
+  rightInput,
+  submitScore,
+  removePopUpScore,
+  scorePopUp,
 } from "./domelments.js";
-import { playerFilter } from "./joueurs.js";
+
+let editingId = null;
 //evenets of module
-const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
+
 const removePopUpForm = document.querySelector("#removePopUpForm");
 const openUpFormBtn = document.querySelector("#PopUpFormBtn");
 const annuleBtn = document.querySelector("#annuleBtn");
 //open moudel
 openUpFormBtn.addEventListener("click", () => {
+  editingId = null;
   newMatchForm.classList.remove("hidden");
   newMatchForm.reset();
 });
 //close moduel
 removePopUpForm.addEventListener("click", () => {
+  editingId = null;
   newMatchForm.classList.add("hidden");
   newMatchForm.reset();
 });
+//close score moduel
+removePopUpScore.addEventListener("click", () => {
+  scorePopUp.classList.add("hidden");
+});
 //annulr module
 annuleBtn.addEventListener("click", () => {
+  editingId = null;
   newMatchForm.classList.add("hidden");
   newMatchForm.reset();
 });
 //submit form
 newMatchForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  createMatche();
+  if (editingId !== null) {
+    updateMatche(editingId);
+  } else {
+    createMatche();
+  }
+  editingId = null;
   renderMatches(matches);
-  console.log(matches);
   newMatchForm.classList.add("hidden");
   newMatchForm.reset();
 });
@@ -46,19 +69,56 @@ function createMatche() {
     date: dateOfMatche.value,
     heure: matchTime.value,
     lieu: locationOfMatche.value,
-    domicile: "domicile",
+    domicile: lieu?.value === "domicile",
     butsAtlas: null,
     butsAdversaire: null,
   };
-  matches.push(match);
+  matches.unshift(match);
+  refreshMatchesStorage();
 }
+//delete matche
+function deleteMatche(id) {
+  const matcheIndex = matches.findIndex((matche) => {
+    return matche.id == id;
+  });
+  if (matcheIndex == -1) return;
+  matches.splice(matcheIndex, 1);
+  referchMatch();
+  renderMatches(matches);
+}
+//modifier matche
+function updateMatche(id) {
+  const lieu = document.querySelector("input[name='lieu']:checked");
+  const matcheIndex = matches.findIndex((match) => {
+    return match.id === id;
+  });
+  matches[matcheIndex].adversaire = oppenantName.value;
+  matches[matcheIndex].date = dateOfMatche.value;
+  matches[matcheIndex].heure = matchTime.value;
+  matches[matcheIndex].lieu = locationOfMatche.value;
+  matches[matcheIndex].domicile = lieu.value === "domicile";
+  refreshMatchesStorage();
+}
+function modiferTheMatch(match) {
+  editingId = match.id;
+  oppenantName.value = match.adversaire;
+  dateOfMatche.value = match.date;
+  matchTime.value = match.heure;
+  locationOfMatche.value = match.lieu;
+  const matchLieu = document.querySelector(
+    `input[name='lieu'][value = '${match.domicile ? "domicile" : "exterieur"}']`,
+  );
+  if (matchLieu) {
+    matchLieu.checked = true;
+  }
+  newMatchForm.classList.remove("hidden");
+}
+
 //display matche
 function displayMatch(match) {
   const matchDate = new Date(`${match.date}T${match.heure}`);
   const played = matchDate.getTime() <= Date.now();
   const hasScore = match.butsAtlas !== null && match.butsAdversaire !== null;
-  const monthString = months[match.date.split("-")[1]];
-  const dayString = match.date.split("-")[2];
   //creating Elements
   const infoMatch = document.createElement("div");
   const infoTime = document.createElement("div");
@@ -163,10 +223,12 @@ function displayMatch(match) {
   match.domicile
     ? (teams.textContent = `CODANOVA vs ${match.adversaire}`)
     : (teams.textContent = `${match.adversaire} vs CODANOVA`);
-  stadium.innerHTML = `<i class="fa-solid fa-location-dot"></i>${match.lieu}`;
+  pin.className = "fa-solid fa-location-dot";
+  stadium.textContent = match.lieu;
   seeReasultBtn.textContent = "Voir la composition";
-  btnEnterScore.textContent = "<i class='fa-solid fa-pen'></i>";
+  btnEnterScore.textContent = "Enter Score";
   deletBtn.innerHTML = "<i class='fa-solid fa-trash'></i>";
+  modifierBtn.innerHTML = "<i class='fa-solid fa-pen'></i>";
   //scor color
   if (hasScore) {
     score.textContent = `${match.butsAtlas} - ${match.butsAdversaire}`;
@@ -193,6 +255,31 @@ function displayMatch(match) {
   modifierBtn.setAttribute("aria-label", "Modifier le match");
   deletBtn.setAttribute("aria-label", "Supprimer le match");
   //
+  deletBtn.addEventListener("click", () => {
+    deleteMatche(deletBtn.dataset.id);
+  });
+  modifierBtn.addEventListener("click", () => {
+    modiferTheMatch(match);
+  });
+  btnEnterScore.addEventListener("click", () => {
+    scorePopUp.classList.toggle("hidden");
+  });
+  submitScore.addEventListener("submit", (e) => {
+    e.preventDefault();
+    editingId = match.id;
+    const matcheIndex = matches.findIndex((match) => {
+      return match.id === editingId;
+    });
+    console.log(editingId);
+    matches[matcheIndex].butsAtlas = leftInput.value;
+    matches[matcheIndex].butsAdversaire = rightInput.value;
+    referchMatch();
+    renderMatches(matches);
+    console.log(leftInput.value);
+    console.log(rightInput.value);
+    scorePopUp.classList.toggle("hidden");
+  });
+  //
   if (hasScore) right.append(score);
   if (played) right.append(btnEnterScore);
   infoTime.append(national, day, month, houre);
@@ -205,7 +292,6 @@ function displayMatch(match) {
   infoMatch.append(leftSide, rightSide);
   matchesLists.append(infoMatch);
 }
-
 //render matches in cards
 function renderMatches(matches) {
   matchesLists.replaceChildren();
@@ -214,3 +300,4 @@ function renderMatches(matches) {
   });
 }
 renderMatches(matches);
+console.log(matches);

@@ -13,18 +13,8 @@ const positions = [
   "BU - Buteur 2",
 ];
 const players = [];
-const matches = [
-  {
-    id: Date.now().toString(),
-    adversaire: "HUSA", 
-    date: "12-07-26",
-    heure: 1500, 
-    lieu: "Agadir",
-    domicile: true,
-    butsAtlas: 3, 
-    butsAdversaire: 1,
-  },
-];
+const matches = [];
+const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
 const months = [
   "jan",
   "feb",
@@ -40,8 +30,21 @@ const months = [
   "dec",
 ];
 const playersKey = "players";
+const matchKey = "matches";
+function refreshMatchesStorage() {
+  localStorage.setItem(matchKey, JSON.stringify(matches));
+}
 function refreshLocalStorage() {
   localStorage.setItem(playersKey, JSON.stringify(players));
+}
+function referchMatch() {
+  const savedMatches = localStorage.getItem(matchKey);
+  matches.length = 0;
+  if (savedMatches) {
+    matches.push(...JSON.parse(savedMatches));
+  } else {
+    refreshMatchesStorage();
+  }
 }
 function refresh() {
   const savedplayers = localStorage.getItem(playersKey);
@@ -50,17 +53,20 @@ function refresh() {
     players.length = 0;
     players.push(...prased);
   } else {
-    refreshLocalStorage();
+    refreshMatchesStorage();
   }
 }
 refresh();
-
+referchMatch();
 export {
   positions,
   players,
   playersKey,
   matches,
   months,
+  days,
   refreshLocalStorage,
   refresh,
+  refreshMatchesStorage,
+  referchMatch,
 };
