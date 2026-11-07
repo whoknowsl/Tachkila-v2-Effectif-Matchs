@@ -5,7 +5,8 @@ import {
 } from "./domelments.js";
 import { positionColors } from "./joueurs.js";
 import { players, positions, refreshLocalStorage } from "./data.js";
-
+const isSlotTaken = (slotId, playerId) =>
+  players.some((p) => p.selecedPosition === slotId && p.id !== playerId);
 //creating card
 function displayPlayerEffectef(player) {
   const li = document.createElement("li");
@@ -47,7 +48,12 @@ function displayPlayerEffectef(player) {
 
   select.addEventListener("change", (e) => {
     const selecedPosition = removeSpaces(e.target.value);
-    console.log(selecedPosition);
+    if (
+      selecedPosition !== "Surlebanc" &&
+      isSlotTaken(selecedPosition, player.id)
+    ) {
+      return renderPlayers(players);
+    }
     const oldposition = player.selecedPosition;
     console.log(oldposition);
     player.selecedPosition = selecedPosition;
@@ -121,12 +127,12 @@ function displayPlayerEffectef(player) {
   }
   for (let i = 0; i < select.options.length; i++) {
     const option = select.options[i];
-    const optionId = removeSpaces(option.value);
-    if (optionId == player.selecedPosition) {
-      option.selected = true;
-    }
-    if (optionId != "Surlebanc" && optionId == player.selecedPosition) {
-      option.disabled = true;
+    const slotId = removeSpaces(option.textContent);
+    if (slotId === player.selecedPosition) option.selected = true;
+    if (slotId !== "Surlebanc") {
+      if (isSlotTaken(slotId, player.id) || player.statut === "Blesse") {
+        option.disabled = true;
+      }
     }
   }
   //
@@ -170,13 +176,10 @@ export function clearSlot(position, style) {
   if (slot == null) return;
   slot.dataset.active = "false";
 
-  slot.innerHTML = `    <div
-          class="flex justify-center items-center"
-          id=""
-        >
-          <span class="bg-[${style.color}] p-2 w-10 h-10 rounded-full flex"></span>
-        </div>`;
-  slot.dataset.active = "false";
+  const dot = document.createElement("span");
+  dot.className = "p-2 w-10 h-10 rounded-full flex";
+  dot.style.background = style.color;
+  slot.replaceChildren(dot);
 }
 export function removeSpaces(text) {
   let res = "";
