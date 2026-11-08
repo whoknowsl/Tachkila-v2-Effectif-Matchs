@@ -874,6 +874,17 @@
   .has-checked\:outline-green-500:has(:checked) {
     outline-color: var(--color-green-500);
   }
+  @media (width >= 40rem) {
+    .sm\:flex-row {
+      flex-direction: row;
+    }
+    .sm\:items-center {
+      align-items: center;
+    }
+    .sm\:justify-between {
+      justify-content: space-between;
+    }
+  }
   @media (width >= 48rem) {
     .md\:flex {
       display: flex;

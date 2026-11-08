@@ -17,9 +17,21 @@ import {
   submitScore,
   removePopUpScore,
   scorePopUp,
+  matchErrors,
+  errorNameAdversies,
+  errorDate,
+  errorTime,
+  errorLocation,
 } from "./domelments.js";
-
+import {
+  checkOpponent,
+  checkDate,
+  checkTime,
+  checkLocation,
+  checkVenue,
+} from "./validation.js";
 let editingId = null;
+let scoreEditingId = null;
 //evenets of module
 
 const removePopUpForm = document.querySelector("#removePopUpForm");
@@ -36,20 +48,48 @@ removePopUpForm.addEventListener("click", () => {
   editingId = null;
   newMatchForm.classList.add("hidden");
   newMatchForm.reset();
+  newMatchForm.reset();
+  matchErrors.forEach((error) => {
+    error.textContent = "";
+  });
 });
 //close score moduel
 removePopUpScore.addEventListener("click", () => {
   scorePopUp.classList.add("hidden");
+  newMatchForm.reset();
+  matchErrors.forEach((error) => {
+    error.textContent = "";
+  });
 });
 //annulr module
 annuleBtn.addEventListener("click", () => {
   editingId = null;
   newMatchForm.classList.add("hidden");
   newMatchForm.reset();
+  matchErrors.forEach((error) => {
+    error.textContent = "";
+  });
+});
+//
+const scoreForm = submitScore.closest("form") ?? submitScore;
+scoreForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const regex = /^\d{1,2}$/;
+  if (!regex.test(leftInput.value) || !regex.test(rightInput.value)) return;
+
+  const match = matches.find((m) => m.id === scoreEditingId);
+  if (!match) return;
+  match.butsAtlas = Number(leftInput.value);
+  match.butsAdversaire = Number(rightInput.value);
+  refreshMatchesStorage();
+  renderMatches(matches);
+  scorePopUp.classList.add("hidden");
+  scoreEditingId = null;
 });
 //submit form
 newMatchForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  if (!validateMatchForm()) return;
   if (editingId !== null) {
     updateMatche(editingId);
   } else {
@@ -83,7 +123,7 @@ function deleteMatche(id) {
   });
   if (matcheIndex == -1) return;
   matches.splice(matcheIndex, 1);
-  referchMatch();
+  refreshMatchesStorage();
   renderMatches(matches);
 }
 //modifier matche
@@ -113,7 +153,19 @@ function modiferTheMatch(match) {
   }
   newMatchForm.classList.remove("hidden");
 }
+//delete match
+function validateMatchForm() {
+  const venue = document.querySelector("input[name='lieu']:checked");
 
+  errorNameAdversies.textContent = checkOpponent(oppenantName.value);
+  errorDate.textContent = checkDate(dateOfMatche.value);
+  errorTime.textContent = checkTime(matchTime.value);
+  errorLocation.textContent = checkLocation(locationOfMatche.value);
+
+  return [errorNameAdversies, errorDate, errorTime, errorLocation].every(
+    (error) => error.textContent === "",
+  );
+}
 //display matche
 function displayMatch(match) {
   const matchDate = new Date(`${match.date}T${match.heure}`);
@@ -257,15 +309,18 @@ function displayMatch(match) {
   //
   deletBtn.addEventListener("click", () => {
     deleteMatche(deletBtn.dataset.id);
+    referchMatch();
   });
   modifierBtn.addEventListener("click", () => {
     modiferTheMatch(match);
   });
   btnEnterScore.addEventListener("click", () => {
+    scoreEditingId = match.id;
+    leftInput.value = match.butsAtlas ?? "";
+    rightInput.value = match.butsAdversaire ?? "";
     scorePopUp.classList.toggle("hidden");
   });
-  submitScore.addEventListener("submit", (e) => {
-    e.preventDefault();
+  submitScore.addEventListener("click", () => {
     editingId = match.id;
     const matcheIndex = matches.findIndex((match) => {
       return match.id === editingId;

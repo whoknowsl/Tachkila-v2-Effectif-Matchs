@@ -96,7 +96,7 @@
           id = "oppenant-name"
           class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
           type="text"
-        /><p class="errors p-2 text-red-500" id="errorName"></p>
+        /><p class="errorsMatches p-2 text-red-500" id="errorNameAdversies"></p>
       </div>
         <div class="flex flex-col gap-1">
          <label for="date-of-matche">Date</label>
@@ -105,7 +105,7 @@
           class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
           type="date"
         />
-        <p class="errors p-2 text-red-500 focus:outline-green-500" id="errorNumber"></p>
+        <p class="errorsMatches p-2 text-red-500 focus:outline-green-500" id="errorDate"></p>
       </div>
         <div class="flex flex-col gap-1">
          <label for="match-time">Heure</label>
@@ -114,20 +114,21 @@
           class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
           type="time"
         />
-        <p class="errors p-2 text-red-500 focus:outline-green-500" id="errorNumber"></p>
+        <p class="errorsMatches p-2 text-red-500 focus:outline-green-500" id="errorTime"></p>
       </div>  
         <div class="flex gap-1 flex-col col-span-2"><label for="location">Lieu</label>
         <input
           id="location"
           class="bg-[#0f1625] p-3 rounded-xl focus:outline-4 focus:outline-green-500"
           type="text"
-        /><p class="errors p-2 text-red-500" id="errorName"></p>
+        /><p class="errorsMatches p-2 text-red-500" id="errorLocation"></p>
       </div>
         <div class="flex flex-col gap-5 col-span-2">
           <p for="">Lieu du match</p>
           <div id="" class="grid grid-cols-2 gap-3">
             <label  class = "bg-[#0f1625] p-3 rounded-xl has-checked:bg-green-500"  for="exterieur"><input id="exterieur" name="lieu" type="radio" value="exterieur"> Exterieur</label>
             <label class = "bg-[#0f1625] p-3 rounded-xl has-checked:bg-green-500" for="domicile"><input id="domicile" name="lieu" type="radio" value="domicile"> Domicile</label>
+            <p class="errorsMatches p-2 text-red-500" id="errorVenue"></p>
           </div>
         </div>
       </div>

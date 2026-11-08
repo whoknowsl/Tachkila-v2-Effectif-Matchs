@@ -236,12 +236,4 @@ export function display() {
   btnPrec.disabled = etat.page <= 1;
   btnSuiv.disabled = etat.page >= totalPages;
 }
-// export function maxGardien(players) {
-//   const numberGb = players.filter((p) => p.position == "GB").length;
-//   console.log(numberGb);
-//   if (numberGb == 3) {
-//     alert("the maximum GB in the team is 3");
-//     return;
-//   }
-// }
 console.log(players);
