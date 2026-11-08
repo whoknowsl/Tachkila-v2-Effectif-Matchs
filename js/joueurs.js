@@ -19,9 +19,9 @@ export function createPlayer() {
     id: Date.now().toString(),
     name: nameOfThePlayer.value,
     number: Number(numberOfThePlayer.value),
-    position: postOfThePlayer.options[postOfThePlayer.selectedIndex].text,
+    position: postOfThePlayer.value,
     age: ageOfThePlayer.value,
-    statut: statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text,
+    statut: statusOfThePlayer.value,
     capitaine: false,
   };
   players.push(newPlayer);
@@ -44,15 +44,19 @@ export function deletPlayer(p) {
 }
 //update player
 export function updatePlayer() {
-  const target = state.editingId;
   const updatingIndex = players.findIndex((p) => p.id === state.editingId);
-  players[updatingIndex].name = nameOfThePlayer.value;
-  players[updatingIndex].number = Number(numberOfThePlayer.value);
-  players[updatingIndex].age = ageOfThePlayer.value;
-  players[updatingIndex].position =
-    postOfThePlayer.options[postOfThePlayer.selectedIndex].text;
-  players[updatingIndex].status =
-    statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text;
+  const p = players[updatingIndex];
+  const newPosition = postOfThePlayer.value;
+  const newStatut = statusOfThePlayer.value;
+  if (p.position !== newPosition || newStatut === "Blessé") {
+    p.selecedPosition = "";
+  }
+
+  p.name = nameOfThePlayer.value;
+  p.number = Number(numberOfThePlayer.value);
+  p.age = Number(ageOfThePlayer.value);
+  p.position = newPosition;
+  p.statut = newStatut;
   refreshLocalStorage();
   state.editingId = null;
   newPlayerForm.reset();
@@ -155,9 +159,9 @@ export function displayCard(player) {
     renderingCard();
   });
   //change color of blessed
-  status.textContent == "Blesse"
-    ? status.classList.add("bg-red-500")
-    : status.classList.add("bg-green-500");
+  status.classList.add(
+    player.statut === "blesse" ? "bg-red-500" : "bg-green-500",
+  );
   //delet player
   deletBtn.addEventListener("click", () => {
     deletPlayer(deletBtn.dataset.id);
@@ -190,11 +194,20 @@ export function modifierTheplayer(player) {
   state.editingId = player.id;
   nameOfThePlayer.value = player.name;
   numberOfThePlayer.value = player.number;
-  postOfThePlayer.options[postOfThePlayer.selectedIndex].text = player.position;
+  postOfThePlayer.value = player.position;
+  statusOfThePlayer.value = player.statut;
   ageOfThePlayer.value = player.age;
-  statusOfThePlayer.options[statusOfThePlayer.selectedIndex].text =
-    player.statut;
   newPlayerForm.classList.remove("hidden");
+}
+//
+export function positionOccupe(position, playerId) {
+  let taken = false;
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].cuurentPosition == position && players[i].id != playerId) {
+      taken = true;
+    }
+  }
+  return taken;
 }
 //pagination logic
 const parPage = 8;
@@ -223,12 +236,4 @@ export function display() {
   btnPrec.disabled = etat.page <= 1;
   btnSuiv.disabled = etat.page >= totalPages;
 }
-export function maxGardien(players) {
-  const numberGb = players.filter((p) => p.position == "GB").length;
-  console.log(numberGb);
-  if (numberGb == 3) {
-    alert("the maximum GB in the team is 3");
-    return;
-  }
-}
-console.log(players)
+console.log(players);

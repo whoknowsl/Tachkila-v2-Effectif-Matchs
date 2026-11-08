@@ -7,7 +7,7 @@ import {
   displayCard,
   etat,
   display,
-  maxGardien,
+
 } from "./js/joueurs.js";
 import {
   newPlayerForm,
@@ -70,7 +70,7 @@ newPlayerForm.addEventListener("submit", (e) => {
   validateNumber(numberOfThePlayer.value);
   validationAge(ageOfThePlayer.value);
   checkPost(postOfThePlayer.options[postOfThePlayer.selectedIndex].text);
-  maxGardien(players);
+  // maxGardien(players);
 
   let hasError = false;
   errors.forEach((error) => {
