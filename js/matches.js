@@ -196,17 +196,19 @@ function displayMatch(match) {
   infoMatch.classList.add(
     "bg-[#1a2438]",
     "flex",
-    "justify-between",
-    "items-center",
+    "flex-col",
+    "md:flex-row",
+    "md:justify-between",
+    "md:items-center",
     "px-4",
     "py-4",
-    "gap-3",
+    "gap-4",
     "rounded-2xl",
     "border",
     "border-slate-700",
     "mb-3",
   );
-  leftSide.classList.add("flex", "items-center", "gap-4");
+  leftSide.classList.add("flex", "items-center", "gap-4", "flex-wrap");
   infoTime.classList.add(
     "bg-[#0b1426]",
     "px-3",
@@ -215,6 +217,7 @@ function displayMatch(match) {
     "text-white",
     "text-center",
     "w-24",
+    "shrink-0"
   );
   national.classList.add("text-slate-400", "text-sm");
   day.classList.add("text-3xl", "font-bold");
@@ -234,9 +237,15 @@ function displayMatch(match) {
   } else {
     homeOrOutside.classList.add("bg-amber-500/25", "text-amber-500");
   }
-  teams.classList.add("text-white", "text-xl", "font-bold");
+  teams.classList.add("text-white", "font-bold", "text-lg", "md:text-xl");
   stadium.classList.add("flex", "gap-2", "text-slate-400", "items-center");
-  right.classList.add("flex", "flex-col", "items-end", "gap-2");
+  right.classList.add(
+    "flex",
+    "flex-col",
+    "gap-2",
+    "items-start",
+    "md:items-end",
+  );
   score.classList.add("text-3xl", "font-bold");
   btnEnterScore.classList.add(
     "bg-indigo-600",
@@ -265,7 +274,14 @@ function displayMatch(match) {
   modifierBtn.classList.add("cursor-pointer", "w-10", "h-10");
   deletBtn.classList.add("cursor-pointer", "w-10", "h-10");
   const rightSide = document.createElement("div");
-  rightSide.classList.add("flex", "items-center", "gap-4");
+  rightSide.classList.add(
+    "flex",
+    "flex-col",
+    "sm:flex-row",
+    "items-stretch",
+    "sm:items-center",
+    "gap-3",
+  );
   //add content
   national.textContent = days[matchDate.getDay()];
   day.textContent = String(matchDate.getDate()).padStart(2, "0");

@@ -76,10 +76,10 @@
           <button class="">Joues 2</button>
         </div>
       </div>
-      <div class="matches-lists flex flex-col px-5 py-4"></div>
+      <div class="matches-lists flex flex-col gap-3 px-4 py-4"></div>
     </section>
      <form
-      class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full max-w-[560px] p-5 rounded-xl flex flex-col gap-4 grid-rows-6"
+      class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full max-w-[560px] p-5 rounded-xl flex flex-col gap-4 grid-rows-6 w-[calc(100%-2rem)] max-w-[560px] max-h-[90vh] overflow-y-auto"
       action=""
       id="newMatchForm"
     >
@@ -89,7 +89,7 @@
           ><i id="removePopUpForm" class="fa-solid fa-xmark"></i
         ></span>
       </div>
-       <div class="grid grid-cols-2 grid-rows-3 gap-3">
+       <div class="grid-rows-3 grid grid-cols-1 gap-3 md:grid-cols-2">
         <div class="flex gap-1 flex-col col-span-2">
           <label for="oppenant-name">Adversaire</label>
         <input
@@ -159,7 +159,7 @@
         Succsse
       </p>
     </form>
-    <form class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50  p-5 rounded-xl flex flex-col gap-2" id="scorePopUp">
+    <form class="hidden bg-[#1a2233] text-white fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50  p-5 rounded-xl flex flex-col gap-2 w-[calc(100%-2rem)] max-w-[560px] max-h-[90vh] overflow-y-auto" id="scorePopUp">
       <div class="flex justify-between">
       <h1>Enter Score</h1>
        <span class="text-2xl"

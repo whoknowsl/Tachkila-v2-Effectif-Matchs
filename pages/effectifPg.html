@@ -25,11 +25,11 @@
           class="w-12 h-12 object-cover rounded-full"
         />
         <div>
-          <h1 class="font-bold text-xl tracking-wide">TACHKILA</h1>
+          <h1 class="text-lg md:text-xl tracking-wide">TACHKILA</h1>
           <p>codaNova</p>
         </div>
       </div>
-      <nav class="bg-[#1d253d00] flex gap-3 items-center">
+      <nav class="bg-[#1d253d00] flex gap-3 items-center flex flex-wrap gap-2 md:gap-3 items-center text-sm md:text-base">
         <a href="effectifPg.html"
           ><button class="effectif bg-green-500 p-2 rounded-xl">
             Effectif
@@ -49,23 +49,23 @@
         </ul>
       </div>
     </header>
-    <section class="h-screen py-4">
-      <div class="flex justify-between px-1 items-center">
+    <section class="min-h-screen py-4">
+      <div class="flex flex-col gap-3 px-4 sm:flex-row sm:justify-between sm:items-center">
         <div class="text-white">
           <h1 class="">Effectif</h1>
           <p>Gere les joueurs du club CodaNova</p>
         </div>
         <button
-          class="bg-[#22c55e] px-5 py-5 self-center my-3 rounded-xl text-xl md:px-3 text-white"
+          class="bg-[#22c55e]  self-center my-3 rounded-xl  text-white px-4 py-3 text-base md:text-lg w-full sm:w-auto"
           id="PopUpFormBtn"
         >
           + Ajouter un joueur
         </button>
       </div>
 
-      <div class="search-bar bg-[#1a2438] py-5 px-3 grid grid-cols-4 gap-3">
+      <div class="search-bar bg-[#1a2438] py-4 px-4 grid grid-cols-1 gap-3 md:grid-cols-4">
         <input
-          class="bg-[#0b1426] text-[#64748b] py-3 px-3 px-1 col-start-1 col-end-4 rounded-xl"
+          class="bg-[#0b1426] text-[#64748b] py-3 px-3 px-1 md:col-span-3 w-full rounded-xl"
           type="text"
           name="searchInput"
           id="search-input"
@@ -74,15 +74,15 @@
         <div
           class="filter-btns text-white bg-[#0b1426] flex justify-evenly rounded-xl"
         >
-          <button id="Tous" data-position = "Tous" class="bg-green-500 px-2 rounded-xl">Tous</button>
-          <button id="GB" data-position = "GB" class="">GB</button>
-          <button id="DEF" data-position = "DEF" class="">DEF</button>
-          <button id="MIL" data-position = "MIL" class="">MIL</button>
-          <button id="ATT" data-position = "ATT" class="">ATT</button>
+          <button id="Tous" data-position = "Tous" class="bg-green-500 px-2 rounded-xl flex-wrap gap-2 p-1 text-sm md:text-base">Tous</button>
+          <button id="GB" data-position = "GB" class="flex-wrap gap-2 p-1 text-sm md:text-base">GB</button>
+          <button id="DEF" data-position = "DEF" class="flex-wrap gap-2 p-1 text-sm md:text-base">DEF</button>
+          <button id="MIL" data-position = "MIL" class="flex-wrap gap-2 p-1 text-sm md:text-base">MIL</button>
+          <button id="ATT" data-position = "ATT" class="flex-wrap gap-2 p-1 text-sm md:text-base">ATT</button>
         </div>
       </div>
-      <div class="players-list flex justify-start gap-4 p-5 flex-wrap"></div> 
-      <div id="pagination" class="text-white flex justify-center gap-5 p-2">
+      <div class="players-list players-list grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div> 
+      <div id="pagination" class="text-white flex flex-wrap items-center justify-center gap-3 p-2">
         <button class="px-4 py-2 bg-gray-500 rounded-xl  disabled:opacity-40 disabled:cursor-not-allowed" id="prec">Precedent</button>
         <p id="info-page" class="m-2">Page 1/2</p>
         <button class="px-4 py-2 bg-gray-500 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed" id="suiv">Suivant</button>
